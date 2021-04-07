@@ -1,0 +1,79 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+  <script src="../libs/jquery-3.6.0.min.js"></script>
+  <link href="../libs/bootstrap.min.css" rel="stylesheet">
+
+
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+    <div class="container">
+
+    <h1>Stored XSS</h1>
+    <h2>Code</h2>
+    <pre>
+        let list = '';
+        localStorage[&#x22;data&#x22;].split(&#x27;,&#x27;).map(x =&#x3E; list += &#x27;&#x3C;li&#x3E;&#x27; + x + &#x27;&#x3C;/li&#x3E;&#x27;)
+        $('#list').html(list);
+    </pre>
+    <h2>Demo</h2>
+    <input type="text" id='newItem' value="<script>alert(1)</script>">
+    <button onClick="addItem()">Add</button>
+    <button onClick="clearItems()">Clear</button>
+    <ul id="list">
+
+</ul>
+
+
+
+</div>
+
+<script>
+
+    // Stored XSS
+    function addItem() {
+        if (localStorage["data"] === "") {
+            localStorage["data"] = $('#newItem').val();
+        } else {
+            localStorage["data"] = localStorage["data"] + ',' + $('#newItem').val();
+        }
+        render();
+    }
+
+    function clearItems() {
+        localStorage["data"] = "";
+        render();
+    }
+
+    function render() {
+        let list = '';
+        if (localStorage["data"].length > 0) {
+            localStorage["data"].split(',').map(x => list += '<li>' + x + '</li>')
+        }
+        $('#list').html(list);
+    }
+    render();
+
+
+
+
+</script>
+</body>
+</html>

@@ -25,24 +25,25 @@
 
 <body>
     <div class="container">
-<h1>Reflected XSS</h1>
+<h1>DOM-based XSS</h1>
 <h2>Code</h2>
-<pre>$('#replacePlaceholder').html(urlParams.get('name'));</pre>
+<pre>$('#replacePlaceholder').html(document.getElementById('searchInput').value);</pre>
+
 <h2>Demo</h2>
-<p>Here is the value of <i>name</i> query parameter: (<b id="replacePlaceholder">value</b>)</p>
+<input type="text" id='searchInput' value="<script>alert(1)</script>">
+<button onClick="search()">Search</button>
+
+<p>Here is the value of the input: (<b id="replacePlaceholder"></b>)</p>
 
 </div>
 
 <script>
 
-    // reflected XSS
+    // DOM - based XSS
 
-    var urlParams = new URLSearchParams(window.location.search);
-
-    $('#replacePlaceholder').html(urlParams.get('name'));
-
-    
-
+    function search() {
+        $('#replacePlaceholder').html(document.getElementById('searchInput').value);
+    }
 
 </script>
 </body>
