@@ -1,0 +1,75 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'">
+
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+  <script src="../libs/jquery-3.6.0.min.js"></script>
+  <link href="../libs/bootstrap.min.css" rel="stylesheet">
+
+
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+    <div class="container">
+
+<h1>Attack scenario</h1>
+<h2>Code</h2>
+<pre>
+    function saveSecret() {
+        localStorage[&#x22;secret&#x22;] = btoa($(&#x27;#secret&#x27;).val());
+    }
+
+    function showSecret() {
+        $(&#x27;#secretPlace&#x27;).text(atob(localStorage[&#x22;secret&#x22;]));
+    }
+
+    var urlParams = new URLSearchParams(window.location.search);
+
+    $(&#x27;#queryValue&#x27;).html(urlParams.get(&#x27;search&#x27;));
+</pre>
+<h2>Demo</h2>
+<p>Search for value: <b id='queryValue'></b></p>
+<input type="text" id='secret' value="secret text">
+<button onClick="saveSecret()">Save</button>
+<br>
+<button onClick="showSecret()">Show</button>
+<div id="secretPlace"></div>
+
+
+</div>
+
+<script nonce="r@nd0m">
+
+    // attack scenario
+    function saveSecret() {
+        localStorage["secret"] = btoa($('#secret').val());
+    }
+
+    function showSecret() {
+        $('#secretPlace').text(atob(localStorage["secret"]));
+    }
+
+    var urlParams = new URLSearchParams(window.location.search);
+
+    $('#queryValue').html(urlParams.get('search'));
+
+
+</script>
+</body>
+</html>
